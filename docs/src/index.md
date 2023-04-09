@@ -1,0 +1,3 @@
+# Methode_of_conjugate_gradients.jl
+
+Documentation for Methode_of_conjugate_gradients.jl

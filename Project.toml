@@ -1,0 +1,7 @@
+name = "Methode_of_conjugate_gradients"
+uuid = "6636df77-008d-45bf-bde4-06fa4aeb0448"
+authors = ["somting123 <118391680+somting123@users.noreply.github.com>"]
+version = "0.1.0"
+
+[deps]
+Test = "8dfed614-e22c-5e08-85e1-65c5234f0b40"
