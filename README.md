@@ -5,7 +5,9 @@
 
 In this repository, you can find the code for Homework 2 of the Numerical Mathematics course. The code is written in Julia, and the main implementation can be found in the file `src/Methode_of_conjugate_gradients.jl`. The code is tested using the file `test/runtests.jl`, and it is documented using the file `docs/make.jl`.
 
-To run the code, you need to have Julia installed on your computer. Download the code and run the `file src/Methode_of_conjugate_gradients.jl`. The file demonstrates how the conjugate gradient method works and compares it to the standard gradient descent function. To find more documentation on the code, go to the file docs/index.html and open it in your web browser. The page contains more information about the conjugate gradient method, the mathematics behind it, and comparisons between methods such as the gradient descent function.
+To run the code, it is necessary to have Julia installed on your computer. Once downloaded, the file `src/Methode_of_conjugate_gradients.jl` can be run to see the conjugate gradient method in action and compare it to the standard gradient descent function.
+
+For further understanding, you can refer to the documentation by opening the file `docs/index.html` in your web browser. This page provides additional information about the code, including the mathematical theory behind the conjugate gradient method and comparisons to other methods like gradient descent. This documentation can help deepen your understanding of the code and the underlying mathematics.
 
 ## The code explaind
 
@@ -80,7 +82,60 @@ To run the code, you need to have Julia installed on your computer. Download the
             return x, i, residuals  # Added 'residuals' to the return values
         end
     ```
+4. 
 
+```julia
+    function f(x, y)
+        return (1.5 * (x - x_center)^2) + (0.5 * (y - y_center)^2)
+    end
 
+    function grad_f(x, y)
+        return [3 * (x - x_center), (y - y_center)]
+    end
+
+    function gradient_descent(grad_f, x0, max_iter=1000, tol=1e-6, lr=0.1)
+        x = x0
+        path = [x0]
+
+        for i in 1:max_iter
+            x = x - lr * grad_f(x...)
+            push!(path, x)
+
+            if norm(grad_f(x...)) < tol
+                break
+            end
+        end
+
+        return x, path
+    end
+
+    function conj_grad_2d(grad_f, x0, max_iter=1000, tol=1e-6, eps=1e-4)
+        x = x0
+        r = -grad_f(x...)
+        p = copy(r)
+
+        path = [x0]
+
+        for i in 1:max_iter
+            Ap = grad_f(p...)
+            alpha = dot(r, r) / (dot(p, Ap) + eps)
+            x = x + alpha * p
+            push!(path, x)
+
+            r_new = r - alpha * Ap
+
+            if norm(r_new) < tol
+                break
+            end
+
+            beta = dot(r_new, r_new) / dot(r, r)
+            p = r_new + beta * p
+            r = r_new
+        end
+
+        return x, path
+    end
+```
+5. 
 
     
