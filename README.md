@@ -82,8 +82,9 @@ For further understanding, you can refer to the documentation by opening the fil
             return x, i, residuals  # Added 'residuals' to the return values
         end
     ```
-4. 
+4. This code provides two optimization functions, gradient descent and conjugate gradient, for a 2D quadratic function.
 
+gradient_descent and conj_grad_2d take a starting point, maximum number of iterations, tolerance, and learning rate/small value for epsilon as arguments. They return the optimized x value and the path taken during optimization as a list.
 ```julia
     function f(x, y)
         return (1.5 * (x - x_center)^2) + (0.5 * (y - y_center)^2)
@@ -136,6 +137,5 @@ For further understanding, you can refer to the documentation by opening the fil
         return x, path
     end
 ```
-5. 
 
     
