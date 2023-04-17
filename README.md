@@ -44,8 +44,8 @@ To run the code, you need to have Julia installed on your computer. Download the
         # Get the size of ScatteredArray
         Base.size(A::ScatteredArray, dim::Integer) = size(A.I, dim)
     ```
-3. 
-This code defines a conj_grad function that solves a linear system Ax = b using the conjugate gradient method, given a ScatteredArray A and Vector b. It returns the solution, number of iterations, and residuals.
+3. This code defines a conj_grad function that solves a linear system Ax = b using the conjugate gradient method, given a ScatteredArray A and Vector b. It returns the solution, number of iterations, and residuals.
+
     ```julia
         function conj_grad(A::ScatteredArray, b::Vector{Float64}; x0=nothing, tol=1e-6, max_iter=1000)
             if x0 === nothing
@@ -81,6 +81,6 @@ This code defines a conj_grad function that solves a linear system Ax = b using 
         end
     ```
 
-    
+
 
     
