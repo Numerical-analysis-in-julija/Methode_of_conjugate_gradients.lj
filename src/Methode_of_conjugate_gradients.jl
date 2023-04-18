@@ -2,7 +2,7 @@ module Methode_of_conjugate_gradients
 
 using LinearAlgebra
 using Plots
-using Plots.PlotlyJS
+using PlotlyJS
 
 struct ScatteredArray
     V::Matrix{Float64}
@@ -101,7 +101,7 @@ function conj_grad_2d(grad_f, x0, max_iter=1000, tol=1e-6, eps=1e-4)
     path = [x0]
 
     for i in 1:max_iter
-        Ap = grad_f(p...)
+        Ap = grad_f((x + dot(r, r) / (dot(p, grad_f(x...)) + eps) * p)...)
         alpha = dot(r, r) / (dot(p, Ap) + eps)
         x = x + alpha * p
         push!(path, x)
@@ -120,15 +120,13 @@ function conj_grad_2d(grad_f, x0, max_iter=1000, tol=1e-6, eps=1e-4)
     return x, path
 end
 
-# conj_grad_2d and gradient_descent functions remain unchanged.
-
 x0 = [3.0, 3.0]
 sol_gd, path_gd = gradient_descent(grad_f, x0)
 sol_cg, path_cg = conj_grad_2d(grad_f, x0)
 
 x = -2:0.1:4
 y = -2:0.1:4
-contour(x, y, f, title="Gradient Descent vs Conjugate Gradient", xlabel="x", ylabel="y", legend=:topleft)
+Plots.contour(x, y, f, title="Gradient Descent vs Conjugate Gradient", xlabel="x", ylabel="y", legend=:topleft)
 
 x_coords_gd = [p[1] for p in path_gd]
 y_coords_gd = [p[2] for p in path_gd]
@@ -137,6 +135,8 @@ plot!(x_coords_gd, y_coords_gd, marker=:circle, color=:red, lw=1.5, markersize=4
 x_coords_cg = [p[1] for p in path_cg]
 y_coords_cg = [p[2] for p in path_cg]
 plot!(x_coords_cg, y_coords_cg, marker=:circle, color=:blue, lw=1.5, markersize=4, label="Conjugate Gradient")
+
+plot!()
 
 function f_moving_center(x, y, z)
     return 0.5 * ((x - 1)^2 + (y + 1)^2 + (z - 1)^2)
@@ -178,7 +178,7 @@ x0 = [1.0, 1.0, 1.0]
 sol, path = conj_grad_3d(grad_f_moving_center, x0)
 
 # Create a 3D scatter plot of the function
-num_points = 50
+num_points = 20
 x_points = range(-2, 2, length=num_points)
 y_points = range(-2, 2, length=num_points)
 z_points = range(-2, 2, length=num_points)
