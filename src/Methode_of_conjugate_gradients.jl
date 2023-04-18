@@ -2,7 +2,7 @@ module Methode_of_conjugate_gradients
 
 using LinearAlgebra
 using Plots
-using PlotlyJS
+#using PlotlyJS
 
 struct ScatteredArray
     V::Matrix{Float64}
@@ -66,15 +66,15 @@ function conj_grad(A::ScatteredArray, b::Vector{Float64}; x0=nothing, tol=1e-6, 
     return x, i, residuals  # Added 'residuals' to the return values
 end
 
-x_center = 1
-y_center = 1
+A = [4 1; 1 3]
+b = [-1; -1]
 
-function f(x, y)
-    return (1.5 * (x - x_center)^2) + (0.5 * (y - y_center)^2)
+function f(x)
+    return 0.5 * x' * A * x - b' * x
 end
 
-function grad_f(x, y)
-    return [3 * (x - x_center), (y - y_center)]
+function grad_f(x)
+    return A * x - b
 end
 
 function gradient_descent(grad_f, x0, max_iter=1000, tol=1e-6, lr=0.1)
@@ -82,10 +82,11 @@ function gradient_descent(grad_f, x0, max_iter=1000, tol=1e-6, lr=0.1)
     path = [x0]
 
     for i in 1:max_iter
-        x = x - lr * grad_f(x...)
+        g = grad_f(x)
+        x = x - lr * g
         push!(path, x)
 
-        if norm(grad_f(x...)) < tol
+        if norm(grad_f(x)) < tol
             break
         end
     end
@@ -93,20 +94,19 @@ function gradient_descent(grad_f, x0, max_iter=1000, tol=1e-6, lr=0.1)
     return x, path
 end
 
-function conj_grad_2d(grad_f, x0, max_iter=1000, tol=1e-6, eps=1e-4)
+function conj_grad_2d(A, b, x0, max_iter=1000, tol=1e-6)
     x = x0
-    r = -grad_f(x...)
+    r = b - A * x
     p = copy(r)
 
     path = [x0]
 
     for i in 1:max_iter
-        Ap = grad_f((x + dot(r, r) / (dot(p, grad_f(x...)) + eps) * p)...)
-        alpha = dot(r, r) / (dot(p, Ap) + eps)
+        alpha = dot(r, r) / dot(p, A * p)
         x = x + alpha * p
         push!(path, x)
 
-        r_new = r - alpha * Ap
+        r_new = r - alpha * A * p
 
         if norm(r_new) < tol
             break
@@ -120,83 +120,24 @@ function conj_grad_2d(grad_f, x0, max_iter=1000, tol=1e-6, eps=1e-4)
     return x, path
 end
 
-x0 = [3.0, 3.0]
+x0 = [2.0; 2.0]
 sol_gd, path_gd = gradient_descent(grad_f, x0)
-sol_cg, path_cg = conj_grad_2d(grad_f, x0)
+sol_cg, path_cg = conj_grad_2d(A, b, x0)
 
-x = -2:0.1:4
-y = -2:0.1:4
-Plots.contour(x, y, f, title="Gradient Descent vs Conjugate Gradient", xlabel="x", ylabel="y", legend=:topleft)
+x = -1:0.1:3
+y = -1:0.1:3
+contour_plot = Plots.contour(x, y, (x, y) -> f([x; y]), title="Gradient Descent vs Conjugate Gradient", xlabel="x", ylabel="y", legend=:topleft, color=:black, linewidth=0.5)
 
 x_coords_gd = [p[1] for p in path_gd]
 y_coords_gd = [p[2] for p in path_gd]
-plot!(x_coords_gd, y_coords_gd, marker=:circle, color=:red, lw=1.5, markersize=4, label="Gradient Descent")
+plot!(contour_plot, x_coords_gd, y_coords_gd, marker=:circle, color=:green, lw=1.5, markersize=4, label="Gradient Descent")
 
 x_coords_cg = [p[1] for p in path_cg]
 y_coords_cg = [p[2] for p in path_cg]
-plot!(x_coords_cg, y_coords_cg, marker=:circle, color=:blue, lw=1.5, markersize=4, label="Conjugate Gradient")
+plot!(contour_plot, x_coords_cg, y_coords_cg, marker=:circle, color=:red, lw=1.5, markersize=4, label="Conjugate Gradient")
 
-plot!()
+plot!(contour_plot)
 
-function f_moving_center(x, y, z)
-    return 0.5 * ((x - 1)^2 + (y + 1)^2 + (z - 1)^2)
-end
-
-function grad_f_moving_center(x, y, z)
-    return [x - 1, y + 1, z - 1]
-end
-
-function conj_grad_3d(grad_f, x0, max_iter=1000, tol=1e-6)
-    x = x0
-    r = -grad_f(x...)
-    p = copy(r)
-
-    path = [x0]
-
-    for i in 1:max_iter
-        Ap = grad_f(p...)
-        alpha = dot(r, r) / dot(p, Ap)
-        x = x + alpha * p
-        push!(path, x)
-
-        r_new = r - alpha * Ap
-
-        if norm(r_new) < tol
-            break
-        end
-
-        beta = dot(r_new, r_new) / dot(r, r)
-        p = r_new + beta * p
-        r = r_new
-    end
-
-    return x, path
-end
-
-# Test data
-x0 = [1.0, 1.0, 1.0]
-sol, path = conj_grad_3d(grad_f_moving_center, x0)
-
-# Create a 3D scatter plot of the function
-num_points = 20
-x_points = range(-2, 2, length=num_points)
-y_points = range(-2, 2, length=num_points)
-z_points = range(-2, 2, length=num_points)
-
-x_coords = [xi for xi in x_points for yi in y_points for zi in z_points]
-y_coords = [yi for xi in x_points for yi in y_points for zi in z_points]
-z_coords = [zi for xi in x_points for yi in y_points for zi in z_points]
-f_values = [f_moving_center(xi, yi, zi) for xi in x_coords for yi in y_coords for zi in z_coords]
-
-p = plotlyjs()
-scatter3d(x_coords, y_coords, z_coords, f_values, mode=:markers, marker_size=3, opacity=0.3, colorbar_title="f(x, y, z)")
-
-# Plot the path
-x_path_coords = [p[1] for p in path]
-y_path_coords = [p[2] for p in path]
-z_path_coords = [p[3] for p in path]
-scatter3d!(x_path_coords, y_path_coords, z_path_coords, mode=:markers, marker_size=6, color=:red, legend=false)
-
-export ScatteredArray, conj_grad
+export ScatteredArray, conj_grad, conj_grad_2d, gradient_descent
 
 end # module Methode_of_conjugate_gradients

@@ -4,7 +4,10 @@ This is the documentation for the repository of the method of Conjugate Gradient
 
 
 ## The mathematical explanation
+Here will 
+### Conjugate gradient method
 
+### The Gradient descent method
 
 ## The code explaind
 
@@ -83,12 +86,16 @@ This is the documentation for the repository of the method of Conjugate Gradient
 
 gradient_descent and conj_grad_2d take a starting point, maximum number of iterations, tolerance, and learning rate/small value for epsilon as arguments. They return the optimized x value and the path taken during optimization as a list.
 ```julia
-    function f(x, y)
-        return (1.5 * (x - x_center)^2) + (0.5 * (y - y_center)^2)
+
+    A = [4 1; 1 3]
+    b = [-1; -1]
+
+    function f(x)
+        return 0.5 * x' * A * x - b' * x
     end
 
-    function grad_f(x, y)
-        return [3 * (x - x_center), (y - y_center)]
+    function grad_f(x)
+        return A * x - b
     end
 
     function gradient_descent(grad_f, x0, max_iter=1000, tol=1e-6, lr=0.1)
@@ -96,10 +103,11 @@ gradient_descent and conj_grad_2d take a starting point, maximum number of itera
         path = [x0]
 
         for i in 1:max_iter
-            x = x - lr * grad_f(x...)
+            g = grad_f(x)
+            x = x - lr * g
             push!(path, x)
 
-            if norm(grad_f(x...)) < tol
+            if norm(grad_f(x)) < tol
                 break
             end
         end
@@ -107,20 +115,19 @@ gradient_descent and conj_grad_2d take a starting point, maximum number of itera
         return x, path
     end
 
-    function conj_grad_2d(grad_f, x0, max_iter=1000, tol=1e-6, eps=1e-4)
+    function conj_grad_2d(A, b, x0, max_iter=1000, tol=1e-6)
         x = x0
-        r = -grad_f(x...)
+        r = b - A * x
         p = copy(r)
 
         path = [x0]
 
         for i in 1:max_iter
-            Ap = grad_f(p...)
-            alpha = dot(r, r) / (dot(p, Ap) + eps)
+            alpha = dot(r, r) / dot(p, A * p)
             x = x + alpha * p
             push!(path, x)
 
-            r_new = r - alpha * Ap
+            r_new = r - alpha * A * p
 
             if norm(r_new) < tol
                 break
@@ -133,4 +140,5 @@ gradient_descent and conj_grad_2d take a starting point, maximum number of itera
 
         return x, path
     end
+
 ```
