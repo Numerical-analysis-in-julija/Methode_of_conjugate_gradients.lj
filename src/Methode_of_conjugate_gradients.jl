@@ -4,12 +4,22 @@ using LinearAlgebra
 using Plots
 #using PlotlyJS
 
+""" 
+The ScatteredArray struct is used to represent a sparse matrix.
+it takes two arguments:
+    V: a matrix of values
+    I: a matrix of indices
+"""
 struct ScatteredArray
     V::Matrix{Float64}
     I::Matrix{Int}
 end
 
 # Multiplication function for ScatteredArray
+"""
+this is a method definition in Julia for the 
+element-wise multiplication between a ScatteredArray and a Vector.
+"""
 function Base.:*(A::ScatteredArray, x::Vector{Float64})
     result = zeros(size(A.I, 1))
 
@@ -44,7 +54,7 @@ function conj_grad(A::ScatteredArray, b::Vector{Float64}; x0=nothing, tol=1e-6, 
     p = copy(r)
     rsold = dot(r, r)
 
-    residuals = Float64[]  # Added this line to initialize an array for residuals
+    residuals = Float64[]
 
     for i in 1:max_iter
         Ap = A * p
@@ -53,7 +63,7 @@ function conj_grad(A::ScatteredArray, b::Vector{Float64}; x0=nothing, tol=1e-6, 
         r = r - alpha * Ap
 
         rsnew = dot(r, r)
-        push!(residuals, sqrt(rsnew))  # Added this line to store the residuals
+        push!(residuals, sqrt(rsnew))
 
         if sqrt(rsnew) < tol
             break
@@ -63,8 +73,11 @@ function conj_grad(A::ScatteredArray, b::Vector{Float64}; x0=nothing, tol=1e-6, 
         rsold = rsnew
     end
 
-    return x, i, residuals  # Added 'residuals' to the return values
+    return x, i, residuals
 end
+
+
+# Visualisation of the convergence of the conjugate gradient method
 
 A = [4 1; 1 3]
 b = [-1; -1]

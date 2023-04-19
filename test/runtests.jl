@@ -14,10 +14,6 @@ x, iter, residuals = conj_grad(A, b)
 @test x ≈ [-0.09090909090909094, -0.27272727272727276]
 @test iter <= 2
 
-# Test the 2D optimization functions
-A = [4 1; 1 3]
-b = [-1; -1]
-
 function f(x)
     return 0.5 * x' * A * x - b' * x
 end
