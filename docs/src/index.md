@@ -4,7 +4,7 @@ This is the documentation for the repository of the method of Conjugate Gradient
 
 
 ## The mathematical explanation
-Here will 
+Here will 1
 ### Conjugate gradient method
 
 ### The Gradient descent method
@@ -13,11 +13,11 @@ Here will
 
 1. This code imports three Julia packages: LinearAlgebra, Plots, and PlotlyJS.
 
-    ```julia
-        using LinearAlgebra
-        using Plots
-        using PlotlyJS
-    ```
+```julia
+    using LinearAlgebra
+    using Plots
+    using PlotlyJS
+```
 2. The code defines a ScatteredArray structure with two matrices and provides custom multiplication and size functions for it.
 
     ```julia
