@@ -1,7 +1,7 @@
 using Documenter
 using Methode_of_conjugate_gradients
 
-makedocs(
+doc = makedocs(
     sitename = "Methode_of_conjugate_gradients",
     format = Documenter.HTML(),
     modules = [Methode_of_conjugate_gradients]
