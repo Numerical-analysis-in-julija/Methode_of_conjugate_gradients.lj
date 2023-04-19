@@ -9,4 +9,4 @@ To run the code, it is necessary to have Julia installed on your computer. Once 
 
 For further understanding, you can refer to the documentation by opening the file `docs/index.html` in your web browser. This page provides additional information about the code, including the mathematical theory behind the conjugate gradient method and comparisons to other methods like gradient descent. This documentation can help deepen your understanding of the code and the underlying mathematics.
 
-    
+test
