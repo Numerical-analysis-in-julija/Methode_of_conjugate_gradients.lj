@@ -18,6 +18,5 @@ deploydocs(
     push_preview = true, # Set this to false when you're ready to deploy to the main branch
     devbranch = "master", # The branch where the documentation should be built from
     target = "gh-pages", # The branch where the documentation should be deployed
-    devurl = "dev", # The URL where the development version of the docs will be hosted
-    julia = "1.8.5" # The version of Julia used to build the docs
+    devurl = "dev" # The URL where the development version of the docs will be hosted
 )
