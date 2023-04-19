@@ -19,5 +19,5 @@ deploydocs(
     devbranch = "master", # The branch where the documentation should be built from
     target = "gh-pages", # The branch where the documentation should be deployed
     devurl = "dev", # The URL where the development version of the docs will be hosted
-    deploy_config = Documenter.TravisCI(; ssh_key = ENV["DOCUMENTER_KEY"]) # Pass the DOCUMENTER_KEY using deploy_config
+    deploy_config = Documenter.GitHubActions(; ssh_key = ENV["DOCUMENTER_KEY"]) # Pass the DOCUMENTER_KEY using deploy_config
 )
