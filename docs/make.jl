@@ -1,6 +1,5 @@
 using Documenter
 using Methode_of_conjugate_gradients
-using deploydocs
 
 makedocs(
     sitename = "Methode_of_conjugate_gradients",
