@@ -10,6 +10,8 @@ makedocs(
 # Documenter can also automatically deploy documentation to gh-pages.
 # See "Hosting Documentation" and deploydocs() in the Documenter manual
 # for more information.
-deploydocs(
+println(ENV["DOCUMENTER_KEY"])
+
+deploydcs(
     repo = "github.com/lovc21/Methode_of_conjugate_gradients.lj.git"
 )
