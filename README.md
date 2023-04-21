@@ -7,6 +7,5 @@ In this repository, you can find the code for Homework 2 of the Numerical Mathem
 
 To run the code, it is necessary to have Julia installed on your computer. Once downloaded, the file `src/Methode_of_conjugate_gradients.jl` can be run to see the conjugate gradient method in action and compare it to the standard gradient descent function.
 
-For further understanding, you can refer to the documentation by opening the file `docs/index.html` in your web browser. This page provides additional information about the code, including the mathematical theory behind the conjugate gradient method and comparisons to other methods like gradient descent. This documentation can help deepen your understanding of the code and the underlying mathematics.
+For further understanding, you can refer to the documentation https://lovc21.github.io/Methode_of_conjugate_gradients.lj/dev/ . This page provides additional information about the code, including the mathematical theory behind the conjugate gradient method and comparisons to other methods like gradient descent. This documentation can help deepen your understanding of the code and the underlying mathematics.
 
-test
