@@ -1,11 +1,12 @@
 language: julia
 os:
-  - windows
+  - linux
 julia:
   - 1.8
 branches:
   only:
     - master
+coveralls: true
 notifications:
   email: false
 jobs:
