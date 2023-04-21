@@ -55,6 +55,8 @@ function conj_grad(A::ScatteredArray, b::Vector{Float64}; x0=nothing, tol=1e-6, 
     rsold = dot(r, r)
 
     residuals = Float64[]
+    
+    i = 0
 
     for i in 1:max_iter
         Ap = A * p
@@ -73,7 +75,7 @@ function conj_grad(A::ScatteredArray, b::Vector{Float64}; x0=nothing, tol=1e-6, 
         rsold = rsnew
     end
 
-    return x, i, residuals
+    return x,i , residuals
 end
 
 

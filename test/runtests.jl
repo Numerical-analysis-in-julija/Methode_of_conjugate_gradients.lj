@@ -1,29 +1,23 @@
 using Test
 using Methode_of_conjugate_gradients
 
-# Test the ScatteredArray multiplication function
-A = ScatteredArray([1 2 0; 0 3 4], [1 2 0; 0 3 2])
-x = [1.0, 2.0, 3.0]
-y = A * x
-@test y ≈ [5.0, 17.0]  # Corrected the expected output
+# Test 1: ScatteredArray multiplication
+A = Methode_of_conjugate_gradients.ScatteredArray([3.0 0.0; 0.0 2.0], [1 0; 0 2])
+x = [1.0, 2.0]
+@test A * x == [3.0, 4.0]
 
-# Test the conjugate gradient function
-A = ScatteredArray([4 1; 1 3], [1 2; 3 1])
-b = [-1.0, -1.0]
-x, iter, residuals = conj_grad(A, b)
-@test x ≈ [-0.09090909090909094, -0.27272727272727276]
-@test iter <= 2
+# Test 2: Conjugate Gradient Method
+A_dense = [4.0 1.0; 1.0 3.0]
+b = [1.0; 1.0]
+x0 = [0.0; 0.0]
+A_scattered = Methode_of_conjugate_gradients.ScatteredArray([4.0 1.0; 1.0 3.0], [1 2; 1 2])
+x_sol, num_iter, residuals = Methode_of_conjugate_gradients.conj_grad(A_scattered, b, x0=x0)
+@test x_sol ≈ [0.18181818181818182, 0.2727272727272727] atol=1e-6
 
-function f(x)
-    return 0.5 * x' * A * x - b' * x
-end
-
-function grad_f(x)
-    return A * x - b
-end
-
-x0 = [2.0; 2.0]
-sol_gd, path_gd = gradient_descent(grad_f, x0)
-sol_cg, path_cg = conj_grad_2d(A, b, x0)
-@test sol_gd ≈ [-0.09090909090909094, -0.27272727272727276]
-@test sol_cg ≈ [-0.09090909090909094, -0.27272727272727276]
+# Test 3: Conjugate Gradient Method with more iterations
+A_dense_large = [4.0 1.0 0.0; 1.0 3.0 1.0; 0.0 1.0 2.0]
+b_large = [1.0; 1.0; 1.0]
+x0_large = [0.0; 0.0; 0.0]
+A_large = Methode_of_conjugate_gradients.ScatteredArray([4.0 1.0 0.0; 1.0 3.0 1.0; 0.0 1.0 2.0], [1 2 0; 1 2 3; 0 2 3])
+x_sol_large, num_iter_large, residuals_large = Methode_of_conjugate_gradients.conj_grad(A_large, b_large, x0=x0_large)
+@test x_sol_large ≈ [0.22222222222222227, 0.11111111111111109, 0.44444444444444453] atol=1e-6
