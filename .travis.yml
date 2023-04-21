@@ -1,0 +1,12 @@
+language: julia 
+os:
+  - windows
+julia:
+  - 1.8
+branches:
+  only:
+    - master
+coveralls: true
+notifications:
+  email: false
+  
