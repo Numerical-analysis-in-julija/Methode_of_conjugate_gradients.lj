@@ -1,0 +1,104 @@
+<!DOCTYPE html>
+<html lang="en"><head><meta charset="UTF-8"/><meta name="viewport" content="width=device-width, initial-scale=1.0"/><title>Methodeofconjugate_gradients.jl · Methode_of_conjugate_gradients</title><script data-outdated-warner src="assets/warner.js"></script><link href="https://cdnjs.cloudflare.com/ajax/libs/lato-font/3.0.0/css/lato-font.min.css" rel="stylesheet" type="text/css"/><link href="https://cdnjs.cloudflare.com/ajax/libs/juliamono/0.045/juliamono.min.css" rel="stylesheet" type="text/css"/><link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/fontawesome.min.css" rel="stylesheet" type="text/css"/><link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/solid.min.css" rel="stylesheet" type="text/css"/><link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/brands.min.css" rel="stylesheet" type="text/css"/><link href="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.13.24/katex.min.css" rel="stylesheet" type="text/css"/><script>documenterBaseURL="."</script><script src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.6/require.min.js" data-main="assets/documenter.js"></script><script src="siteinfo.js"></script><script src="../versions.js"></script><link class="docs-theme-link" rel="stylesheet" type="text/css" href="assets/themes/documenter-dark.css" data-theme-name="documenter-dark" data-theme-primary-dark/><link class="docs-theme-link" rel="stylesheet" type="text/css" href="assets/themes/documenter-light.css" data-theme-name="documenter-light" data-theme-primary/><script src="assets/themeswap.js"></script></head><body><div id="documenter"><nav class="docs-sidebar"><div class="docs-package-name"><span class="docs-autofit"><a href>Methode_of_conjugate_gradients</a></span></div><form class="docs-search" action="search/"><input class="docs-search-query" id="documenter-search-query" name="q" type="text" placeholder="Search docs"/></form><ul class="docs-menu"><li class="is-active"><a class="tocitem" href>Methode<em>of</em>conjugate_gradients.jl</a><ul class="internal"><li><a class="tocitem" href="#The-mathematical-explanation"><span>The mathematical explanation</span></a></li><li><a class="tocitem" href="#The-code-explaind"><span>The code explaind</span></a></li></ul></li></ul><div class="docs-version-selector field has-addons"><div class="control"><span class="docs-label button is-static is-size-7">Version</span></div><div class="docs-selector control is-expanded"><div class="select is-fullwidth is-size-7"><select id="documenter-version-selector"></select></div></div></div></nav><div class="docs-main"><header class="docs-navbar"><nav class="breadcrumb"><ul class="is-hidden-mobile"><li class="is-active"><a href>Methode<em>of</em>conjugate_gradients.jl</a></li></ul><ul class="is-hidden-tablet"><li class="is-active"><a href>Methode<em>of</em>conjugate_gradients.jl</a></li></ul></nav><div class="docs-right"><a class="docs-edit-link" href="https://github.com/lovc21/Methode_of_conjugate_gradients.lj/blob/master/docs/src/index.md" title="Edit on GitHub"><span class="docs-icon fab"></span><span class="docs-label is-hidden-touch">Edit on GitHub</span></a><a class="docs-settings-button fas fa-cog" id="documenter-settings-button" href="#" title="Settings"></a><a class="docs-sidebar-button fa fa-bars is-hidden-desktop" id="documenter-sidebar-button" href="#"></a></div></header><article class="content" id="documenter-page"><h1 id="Methode*of*conjugate_gradients.jl"><a class="docs-heading-anchor" href="#Methode*of*conjugate_gradients.jl">Methode<em>of</em>conjugate_gradients.jl</a><a id="Methode*of*conjugate_gradients.jl-1"></a><a class="docs-heading-anchor-permalink" href="#Methode*of*conjugate_gradients.jl" title="Permalink"></a></h1><p>This is the documentation for the repository of the method of Conjugate Gradients.jl. The documentation is divided into two parts. The first part provides a mathematical explanation of Conjugate Gradients and Gradient Descent. The second part provides a detailed explanation of the code.</p><h2 id="The-mathematical-explanation"><a class="docs-heading-anchor" href="#The-mathematical-explanation">The mathematical explanation</a><a id="The-mathematical-explanation-1"></a><a class="docs-heading-anchor-permalink" href="#The-mathematical-explanation" title="Permalink"></a></h2><p>Here will 1</p><h3 id="Conjugate-gradient-method"><a class="docs-heading-anchor" href="#Conjugate-gradient-method">Conjugate gradient method</a><a id="Conjugate-gradient-method-1"></a><a class="docs-heading-anchor-permalink" href="#Conjugate-gradient-method" title="Permalink"></a></h3><h3 id="The-Gradient-descent-method"><a class="docs-heading-anchor" href="#The-Gradient-descent-method">The Gradient descent method</a><a id="The-Gradient-descent-method-1"></a><a class="docs-heading-anchor-permalink" href="#The-Gradient-descent-method" title="Permalink"></a></h3><h2 id="The-code-explaind"><a class="docs-heading-anchor" href="#The-code-explaind">The code explaind</a><a id="The-code-explaind-1"></a><a class="docs-heading-anchor-permalink" href="#The-code-explaind" title="Permalink"></a></h2><ol><li>This code imports three Julia packages: LinearAlgebra, Plots, and PlotlyJS.</li></ol><pre><code class="language-julia hljs">    using LinearAlgebra
+    using Plots
+    using PlotlyJS</code></pre><ol><li><p>The code defines a ScatteredArray structure with two matrices and provides custom multiplication and size functions for it.</p><p>```julia</p><pre><code class="nohighlight hljs"> struct ScatteredArray
+     V::Matrix{Float64}
+     I::Matrix{Int}
+ end
+
+ # Multiplication function for ScatteredArray
+ function Base.:*(A::ScatteredArray, x::Vector{Float64})
+     result = zeros(size(A.I, 1))
+
+     for row in 1:size(A.I, 1)
+         for col in 1:size(A.I, 2)
+             i = A.I[row, col]
+             if i != 0 &amp;&amp; i &lt;= length(x)
+                 result[row] += A.V[row, col] * x[i]
+             end
+         end
+     end
+
+     return result
+ end
+
+ # Get the size of ScatteredArray
+ Base.size(A::ScatteredArray, dim::Integer) = size(A.I, dim)</code></pre><p>```</p></li><li><p>This code defines a conj_grad function that solves a linear system Ax = b using the conjugate gradient method, given a ScatteredArray A and Vector b. It returns the solution, number of iterations, and residuals.</p><p>```julia      function conj<em>grad(A::ScatteredArray, b::Vector{Float64}; x0=nothing, tol=1e-6, max</em>iter=1000)          if x0 === nothing              x = zeros(Float64, size(A, 1))          else              x = x0          end</p><pre><code class="nohighlight hljs">     r = b - A * x
+     p = copy(r)
+     rsold = dot(r, r)
+
+     residuals = Float64[]  # Added this line to initialize an array for residuals
+
+     for i in 1:max_iter
+         Ap = A * p
+         alpha = rsold / dot(p, Ap)
+         x = x + alpha * p
+         r = r - alpha * Ap
+
+         rsnew = dot(r, r)
+         push!(residuals, sqrt(rsnew))  # Added this line to store the residuals
+
+         if sqrt(rsnew) &lt; tol
+             break
+         end
+
+         p = r + (rsnew / rsold) * p
+         rsold = rsnew
+     end
+
+     return x, i, residuals  # Added &#39;residuals&#39; to the return values
+ end</code></pre><p>```</p></li><li><p>This code provides two optimization functions, gradient descent and conjugate gradient, for a 2D quadratic function.</p></li></ol><p>gradient<em>descent and conj</em>grad_2d take a starting point, maximum number of iterations, tolerance, and learning rate/small value for epsilon as arguments. They return the optimized x value and the path taken during optimization as a list.</p><pre><code class="language-julia hljs">
+    A = [4 1; 1 3]
+    b = [-1; -1]
+
+    function f(x)
+        return 0.5 * x&#39; * A * x - b&#39; * x
+    end
+
+    function grad_f(x)
+        return A * x - b
+    end
+
+    function gradient_descent(grad_f, x0, max_iter=1000, tol=1e-6, lr=0.1)
+        x = x0
+        path = [x0]
+
+        for i in 1:max_iter
+            g = grad_f(x)
+            x = x - lr * g
+            push!(path, x)
+
+            if norm(grad_f(x)) &lt; tol
+                break
+            end
+        end
+
+        return x, path
+    end
+
+    function conj_grad_2d(A, b, x0, max_iter=1000, tol=1e-6)
+        x = x0
+        r = b - A * x
+        p = copy(r)
+
+        path = [x0]
+
+        for i in 1:max_iter
+            alpha = dot(r, r) / dot(p, A * p)
+            x = x + alpha * p
+            push!(path, x)
+
+            r_new = r - alpha * A * p
+
+            if norm(r_new) &lt; tol
+                break
+            end
+
+            beta = dot(r_new, r_new) / dot(r, r)
+            p = r_new + beta * p
+            r = r_new
+        end
+
+        return x, path
+    end
+</code></pre></article><nav class="docs-footer"><p class="footer-message">Powered by <a href="https://github.com/JuliaDocs/Documenter.jl">Documenter.jl</a> and the <a href="https://julialang.org/">Julia Programming Language</a>.</p></nav></div><div class="modal" id="documenter-settings"><div class="modal-background"></div><div class="modal-card"><header class="modal-card-head"><p class="modal-card-title">Settings</p><button class="delete"></button></header><section class="modal-card-body"><p><label class="label">Theme</label><div class="select"><select id="documenter-themepicker"><option value="documenter-light">documenter-light</option><option value="documenter-dark">documenter-dark</option></select></div></p><hr/><p>This document was generated with <a href="https://github.com/JuliaDocs/Documenter.jl">Documenter.jl</a> version 0.27.24 on <span class="colophon-date" title="Friday 21 April 2023 12:01">Friday 21 April 2023</span>. Using Julia version 1.8.5.</p></section><footer class="modal-card-foot"></footer></div></div></div></body></html>
