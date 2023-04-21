@@ -7,12 +7,14 @@ on:
   pull_request:
 jobs:
   build:
-    runs-on: windows-latest # [ubuntu-latest, windows-latest, macOS-latest]
+    runs-on: ubuntu-latest # [ubuntu-latest, windows-latest, macOS-latest]
     steps:
       - uses: actions/checkout@v2
       - uses: julia-actions/setup-julia@latest
         with:
           version: '1.8.5'
+      - name: Check Git installation
+        run: git --version
       - name: Install dependencies
         run: julia --project=docs/ -e 'using Pkg; Pkg.develop(PackageSpec(path=pwd())); Pkg.instantiate()'
       - name: Build and deploy
