@@ -21,7 +21,7 @@ jobs:
         with:
           flags: '--color=yes --verbosity=verbose'
       - name: Install Coverage
-        run: julia --project -e 'using Pkg; Pkg.add("Coverage")'
+        run: julia -e 'using Pkg; Pkg.add("Coverage")'
       - name: Coverage
         run: julia --project -e 'using Coverage; Coveralls.submit(Coveralls.process_folder())'
         env:
