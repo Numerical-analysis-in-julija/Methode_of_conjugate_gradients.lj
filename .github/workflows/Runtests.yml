@@ -20,9 +20,4 @@ jobs:
         uses: julia-actions/julia-runtest@latest
         with:
           flags: '--color=yes --verbosity=verbose'
-      - name: Coverage
-        run: julia -e 'using Coverage; Codecov.submit(process_folder())'
-      - name: Coveralls
-        uses: coverallsapp/github-action@v2
-        with:
-          github-token: ${{ secrets.GITHUB_TOKEN }}
+      
