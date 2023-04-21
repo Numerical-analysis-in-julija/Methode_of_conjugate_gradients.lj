@@ -20,9 +20,9 @@ jobs:
         uses: julia-actions/julia-runtest@latest
         with:
           flags: '--color=yes --verbosity=verbose'
-      - name: Install Coverage
-        run: julia -e 'using Pkg; Pkg.add("Coverage")'
       - name: Coverage
-        run: julia --project -e 'using Coverage; Coveralls.submit(Coveralls.process_folder())'
-        env:
-          COVERALLS_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: julia -e 'using Coverage; Codecov.submit(process_folder())'
+      - name: Coveralls
+        uses: coverallsapp/github-action@v2
+        with:
+          github-token: ${{ secrets.GITHUB_TOKEN }}
