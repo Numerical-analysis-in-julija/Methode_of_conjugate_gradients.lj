@@ -1,8 +1,7 @@
 module Methode_of_conjugate_gradients
 
-using LinearAlgebra
 using Plots
-#using PlotlyJS
+using LinearAlgebra
 
 """ 
 The ScatteredArray struct is used to represent a sparse matrix.
@@ -35,8 +34,42 @@ function Base.:*(A::ScatteredArray, x::Vector{Float64})
     return result
 end
 
+
 # Get the size of ScatteredArray
 Base.size(A::ScatteredArray, dim::Integer) = size(A.I, dim)
+
+function create_scattered_system_matrix(adj_matrix::Matrix{Int}, st::Vector{Float64})
+    n = size(adj_matrix, 1)
+    A = zeros(Float64, n, n)
+
+    for i in 1:n
+        A[i, i] = st[i] * length(findall(adj_matrix[i, :] .!= 0)) + 1
+        for j in 1:n
+            if adj_matrix[i, j] == 1
+                A[i, j] = -1
+            end
+        end
+    end
+    
+    # Add a small diagonal perturbation
+    A = A + 1e-6 * Matrix{Float64}(LinearAlgebra.I, n, n)
+
+    V = zeros(Float64, n, n)
+    I = zeros(Int, n, n)
+
+    for i in 1:n
+        k = 1
+        for j in 1:n
+            if A[i, j] != 0
+                V[i, k] = A[i, j]
+                I[i, k] = j
+                k += 1
+            end
+        end
+    end
+
+    return ScatteredArray(V, I)
+end
 
 """ Methode_of_conjugate_gradients.conj_grad works with ScatteredArray
     and Vector{Float64} as input.
@@ -56,7 +89,7 @@ function conj_grad(A::ScatteredArray, b::Vector{Float64}; x0=nothing, tol=1e-6, 
 
     residuals = Float64[]
     
-    i = 0
+    i = 1
 
     for i in 1:max_iter
         Ap = A * p
@@ -77,7 +110,6 @@ function conj_grad(A::ScatteredArray, b::Vector{Float64}; x0=nothing, tol=1e-6, 
 
     return x,i , residuals
 end
-
 
 # Visualisation of the convergence of the conjugate gradient method
 
@@ -153,6 +185,6 @@ plot!(contour_plot, x_coords_cg, y_coords_cg, marker=:circle, color=:red, lw=1.5
 
 plot!(contour_plot)
 
-export ScatteredArray, conj_grad, conj_grad_2d, gradient_descent
+export ScatteredArray, conj_grad, conj_grad_2d, gradient_descent, create_scattered_system_matrix
 
 end # module Methode_of_conjugate_gradients
