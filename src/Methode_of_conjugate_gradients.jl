@@ -38,12 +38,17 @@ end
 # Get the size of ScatteredArray
 Base.size(A::ScatteredArray, dim::Integer) = size(A.I, dim)
 
+# Create a ScatteredArray from an adjacency matrix and a vector of strengths
+"""
+    create_scattered_system_matrix(adj_matrix, st) takes an adjacency matrix
+    and a vector of strengths and returns a ScatteredArray.
+"""
 function create_scattered_system_matrix(adj_matrix::Matrix{Int}, st::Vector{Float64})
     n = size(adj_matrix, 1)
     A = zeros(Float64, n, n)
 
     for i in 1:n
-        A[i, i] = st[i] * length(findall(adj_matrix[i, :] .!= 0)) + 1
+        A[i, i] = st[i] * sum(adj_matrix[i, :]) - 1
         for j in 1:n
             if adj_matrix[i, j] == 1
                 A[i, j] = -1
@@ -185,6 +190,6 @@ plot!(contour_plot, x_coords_cg, y_coords_cg, marker=:circle, color=:red, lw=1.5
 
 plot!(contour_plot)
 
-export ScatteredArray, conj_grad, conj_grad_2d, gradient_descent, create_scattered_system_matrix
+export ScatteredArray, conj_grad, conj_grad_2d, gradient_descent, create_scattered_system_matrix, f, grad_f
 
 end # module Methode_of_conjugate_gradients
