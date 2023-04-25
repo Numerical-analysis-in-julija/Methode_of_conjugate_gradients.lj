@@ -1,6 +1,5 @@
 <!DOCTYPE html>
-<html lang="en"><head><meta charset="UTF-8"/><meta name="viewport" content="width=device-width, initial-scale=1.0"/><title>Methodeofconjugate_gradients.jl · Methode_of_conjugate_gradients</title><script data-outdated-warner src="assets/warner.js"></script><link href="https://cdnjs.cloudflare.com/ajax/libs/lato-font/3.0.0/css/lato-font.min.css" rel="stylesheet" type="text/css"/><link href="https://cdnjs.cloudflare.com/ajax/libs/juliamono/0.045/juliamono.min.css" rel="stylesheet" type="text/css"/><link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/fontawesome.min.css" rel="stylesheet" type="text/css"/><link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/solid.min.css" rel="stylesheet" type="text/css"/><link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/brands.min.css" rel="stylesheet" type="text/css"/><link href="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.13.24/katex.min.css" rel="stylesheet" type="text/css"/><script>documenterBaseURL="."</script><script src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.6/require.min.js" data-main="assets/documenter.js"></script><script src="siteinfo.js"></script><script src="../versions.js"></script><link class="docs-theme-link" rel="stylesheet" type="text/css" href="assets/themes/documenter-dark.css" data-theme-name="documenter-dark" data-theme-primary-dark/><link class="docs-theme-link" rel="stylesheet" type="text/css" href="assets/themes/documenter-light.css" data-theme-name="documenter-light" data-theme-primary/><script src="assets/themeswap.js"></script></head><body><div id="documenter"><nav class="docs-sidebar"><div class="docs-package-name"><span class="docs-autofit"><a href>Methode_of_conjugate_gradients</a></span></div><form class="docs-search" action="search/"><input class="docs-search-query" id="documenter-search-query" name="q" type="text" placeholder="Search docs"/></form><ul class="docs-menu"><li class="is-active"><a class="tocitem" href>Methode<em>of</em>conjugate_gradients.jl</a><ul class="internal"><li><a class="tocitem" href="#The-mathematical-explanation"><span>The mathematical explanation</span></a></li><li><a class="tocitem" href="#The-code-explaind"><span>The code explaind</span></a></li></ul></li></ul><div class="docs-version-selector field has-addons"><div class="control"><span class="docs-label button is-static is-size-7">Version</span></div><div class="docs-selector control is-expanded"><div class="select is-fullwidth is-size-7"><select id="documenter-version-selector"></select></div></div></div></nav><div class="docs-main"><header class="docs-navbar"><nav class="breadcrumb"><ul class="is-hidden-mobile"><li class="is-active"><a href>Methode<em>of</em>conjugate_gradients.jl</a></li></ul><ul class="is-hidden-tablet"><li class="is-active"><a href>Methode<em>of</em>conjugate_gradients.jl</a></li></ul></nav><div class="docs-right"><a class="docs-edit-link" href="https://github.com/lovc21/Methode_of_conjugate_gradients.lj/blob/master/docs/src/index.md" title="Edit on GitHub"><span class="docs-icon fab"></span><span class="docs-label is-hidden-touch">Edit on GitHub</span></a><a class="docs-settings-button fas fa-cog" id="documenter-settings-button" href="#" title="Settings"></a><a class="docs-sidebar-button fa fa-bars is-hidden-desktop" id="documenter-sidebar-button" href="#"></a></div></header><article class="content" id="documenter-page"><h1 id="Methode*of*conjugate_gradients.jl"><a class="docs-heading-anchor" href="#Methode*of*conjugate_gradients.jl">Methode<em>of</em>conjugate_gradients.jl</a><a id="Methode*of*conjugate_gradients.jl-1"></a><a class="docs-heading-anchor-permalink" href="#Methode*of*conjugate_gradients.jl" title="Permalink"></a></h1><p>This is the documentation for the repository of the method of Conjugate Gradients.jl. The documentation is divided into two parts. The first part provides a mathematical explanation of Conjugate Gradients and Gradient Descent. The second part provides a detailed explanation of the code.</p><h2 id="The-mathematical-explanation"><a class="docs-heading-anchor" href="#The-mathematical-explanation">The mathematical explanation</a><a id="The-mathematical-explanation-1"></a><a class="docs-heading-anchor-permalink" href="#The-mathematical-explanation" title="Permalink"></a></h2><h3 id="Graph-Embedding-using-Conjugate-Gradient-Method"><a class="docs-heading-anchor" href="#Graph-Embedding-using-Conjugate-Gradient-Method">Graph Embedding using Conjugate Gradient Method</a><a id="Graph-Embedding-using-Conjugate-Gradient-Method-1"></a><a class="docs-heading-anchor-permalink" href="#Graph-Embedding-using-Conjugate-Gradient-Method" title="Permalink"></a></h3><p>In the context of graph embedding, the conjugate gradient method can be applied to find an equilibrium position for the nodes in a plane or space using a physical method. The idea is to treat the graph as a system of masses connected by springs, where the goal is to find the equilibrium positions of the nodes that minimize the total potential energy of the system. The potential energy function can be defined based on the distance between neighboring nodes.</p><p>The equation given for each coordinate (xi, yi, zi) of the vertices of the graph in space is:</p><p>−st(i)xi + ∑j∈N(i)xj - st(i)yi + ∑j∈N(i)yj - st(i)zi + ∑j∈N(i)zj = 0, 0, 0</p><p>Here, st(i) represents the stage of the i-th node, and N(i) is the set of indices of neighboring nodes. This equation ensures that the total force acting on each node is zero in equilibrium. If some nodes are fixed, the others will occupy an equilibrium position between the fixed nodes.</p><p>To solve this system of equations using the conjugate gradient method, we can first rewrite the equations in matrix form Ax = b, where A is a sparse matrix representing the graph structure, and x and b are vectors containing the coordinates of the vertices and the right-hand side of the equation, respectively. The conjugate gradient method can then be used to solve this linear system iteratively, finding the equilibrium positions of the nodes in the graph.</p><p>The example provided in the code section demonstrates how to create a sparse matrix representation of the graph embedding problem, and then use the conj_grad function to solve it. The resulting solution can be used to visualize the graph embedding in 2D or 3D space, depending on the dimensions of the problem.</p><p>Please refer to the code explanation section to understand the implementation details of the Conjugate Gradient method for solving sparse linear systems with ScatteredArray data type, which is particularly useful for the task of graph embedding using the physical method.</p><h3 id="Conjugate-gradient-method"><a class="docs-heading-anchor" href="#Conjugate-gradient-method">Conjugate gradient method</a><a id="Conjugate-gradient-method-1"></a><a class="docs-heading-anchor-permalink" href="#Conjugate-gradient-method" title="Permalink"></a></h3><p>The conjugate gradient method is an iterative algorithm used to solve linear systems of equations, particularly for symmetric and positive-definite matrices. It converges faster than other iterative methods like gradient descent, especially when dealing with large and sparse matrices.</p><h3 id="The-Gradient-descent-method"><a class="docs-heading-anchor" href="#The-Gradient-descent-method">The Gradient descent method</a><a id="The-Gradient-descent-method-1"></a><a class="docs-heading-anchor-permalink" href="#The-Gradient-descent-method" title="Permalink"></a></h3><p>Gradient descent is an optimization algorithm that tries to minimize a given objective function by iteratively moving in the direction of the steepest descent, as defined by the negative of the gradient. In this code, gradient descent is applied to a 2D quadratic function for visualization purposes.</p><h2 id="The-code-explaind"><a class="docs-heading-anchor" href="#The-code-explaind">The code explaind</a><a id="The-code-explaind-1"></a><a class="docs-heading-anchor-permalink" href="#The-code-explaind" title="Permalink"></a></h2><ol><li><p>This code imports three Julia packages: LinearAlgebra, Plots.</p><p><code>using LinearAlgebra  using Plots</code></p></li><li><p>The code defines a ScatteredArray structure with two matrices and provides custom multiplication and size functions for it. This data structure is specifically designed to represent sparse matrices efficiently.</p><pre><code class="nohighlight hljs"> ```
- struct ScatteredArray
+<html lang="en"><head><meta charset="UTF-8"/><meta name="viewport" content="width=device-width, initial-scale=1.0"/><title>Methodeofconjugate_gradients.jl · Methode_of_conjugate_gradients</title><script data-outdated-warner src="assets/warner.js"></script><link href="https://cdnjs.cloudflare.com/ajax/libs/lato-font/3.0.0/css/lato-font.min.css" rel="stylesheet" type="text/css"/><link href="https://cdnjs.cloudflare.com/ajax/libs/juliamono/0.045/juliamono.min.css" rel="stylesheet" type="text/css"/><link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/fontawesome.min.css" rel="stylesheet" type="text/css"/><link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/solid.min.css" rel="stylesheet" type="text/css"/><link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/brands.min.css" rel="stylesheet" type="text/css"/><link href="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.13.24/katex.min.css" rel="stylesheet" type="text/css"/><script>documenterBaseURL="."</script><script src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.6/require.min.js" data-main="assets/documenter.js"></script><script src="siteinfo.js"></script><script src="../versions.js"></script><link class="docs-theme-link" rel="stylesheet" type="text/css" href="assets/themes/documenter-dark.css" data-theme-name="documenter-dark" data-theme-primary-dark/><link class="docs-theme-link" rel="stylesheet" type="text/css" href="assets/themes/documenter-light.css" data-theme-name="documenter-light" data-theme-primary/><script src="assets/themeswap.js"></script></head><body><div id="documenter"><nav class="docs-sidebar"><div class="docs-package-name"><span class="docs-autofit"><a href>Methode_of_conjugate_gradients</a></span></div><form class="docs-search" action="search/"><input class="docs-search-query" id="documenter-search-query" name="q" type="text" placeholder="Search docs"/></form><ul class="docs-menu"><li class="is-active"><a class="tocitem" href>Methode<em>of</em>conjugate_gradients.jl</a><ul class="internal"><li><a class="tocitem" href="#The-mathematical-explanation"><span>The mathematical explanation</span></a></li><li><a class="tocitem" href="#The-code-explaind"><span>The code explaind</span></a></li></ul></li></ul><div class="docs-version-selector field has-addons"><div class="control"><span class="docs-label button is-static is-size-7">Version</span></div><div class="docs-selector control is-expanded"><div class="select is-fullwidth is-size-7"><select id="documenter-version-selector"></select></div></div></div></nav><div class="docs-main"><header class="docs-navbar"><nav class="breadcrumb"><ul class="is-hidden-mobile"><li class="is-active"><a href>Methode<em>of</em>conjugate_gradients.jl</a></li></ul><ul class="is-hidden-tablet"><li class="is-active"><a href>Methode<em>of</em>conjugate_gradients.jl</a></li></ul></nav><div class="docs-right"><a class="docs-edit-link" href="https://github.com/lovc21/Methode_of_conjugate_gradients.lj/blob/master/docs/src/index.md" title="Edit on GitHub"><span class="docs-icon fab"></span><span class="docs-label is-hidden-touch">Edit on GitHub</span></a><a class="docs-settings-button fas fa-cog" id="documenter-settings-button" href="#" title="Settings"></a><a class="docs-sidebar-button fa fa-bars is-hidden-desktop" id="documenter-sidebar-button" href="#"></a></div></header><article class="content" id="documenter-page"><h1 id="Methode*of*conjugate_gradients.jl"><a class="docs-heading-anchor" href="#Methode*of*conjugate_gradients.jl">Methode<em>of</em>conjugate_gradients.jl</a><a id="Methode*of*conjugate_gradients.jl-1"></a><a class="docs-heading-anchor-permalink" href="#Methode*of*conjugate_gradients.jl" title="Permalink"></a></h1><p>This is the documentation for the repository of the method of Conjugate Gradients.jl. The documentation is divided into two parts. The first part provides a mathematical explanation of Conjugate Gradients and Gradient Descent. The second part provides a detailed explanation of the code.</p><h2 id="The-mathematical-explanation"><a class="docs-heading-anchor" href="#The-mathematical-explanation">The mathematical explanation</a><a id="The-mathematical-explanation-1"></a><a class="docs-heading-anchor-permalink" href="#The-mathematical-explanation" title="Permalink"></a></h2><h3 id="Graph-Embedding-using-Conjugate-Gradient-Method"><a class="docs-heading-anchor" href="#Graph-Embedding-using-Conjugate-Gradient-Method">Graph Embedding using Conjugate Gradient Method</a><a id="Graph-Embedding-using-Conjugate-Gradient-Method-1"></a><a class="docs-heading-anchor-permalink" href="#Graph-Embedding-using-Conjugate-Gradient-Method" title="Permalink"></a></h3><p>In the context of graph embedding, the conjugate gradient method can be applied to find an equilibrium position for the nodes in a plane or space using a physical method. The idea is to treat the graph as a system of masses connected by springs, where the goal is to find the equilibrium positions of the nodes that minimize the total potential energy of the system. The potential energy function can be defined based on the distance between neighboring nodes.</p><p>The equation given for each coordinate (xi, yi, zi) of the vertices of the graph in space is:</p><p>−st(i)xi + ∑j∈N(i)xj - st(i)yi + ∑j∈N(i)yj - st(i)zi + ∑j∈N(i)zj = 0, 0, 0</p><p>Here, st(i) represents the stage of the i-th node, and N(i) is the set of indices of neighboring nodes. This equation ensures that the total force acting on each node is zero in equilibrium. If some nodes are fixed, the others will occupy an equilibrium position between the fixed nodes.</p><p>To solve this system of equations using the conjugate gradient method, we can first rewrite the equations in matrix form Ax = b, where A is a sparse matrix representing the graph structure, and x and b are vectors containing the coordinates of the vertices and the right-hand side of the equation, respectively. The conjugate gradient method can then be used to solve this linear system iteratively, finding the equilibrium positions of the nodes in the graph.</p><p>The example provided in the code section demonstrates how to create a sparse matrix representation of the graph embedding problem, and then use the conj_grad function to solve it. The resulting solution can be used to visualize the graph embedding in 2D or 3D space, depending on the dimensions of the problem.</p><p>Please refer to the code explanation section to understand the implementation details of the Conjugate Gradient method for solving sparse linear systems with ScatteredArray data type, which is particularly useful for the task of graph embedding using the physical method.</p><h3 id="Conjugate-gradient-method"><a class="docs-heading-anchor" href="#Conjugate-gradient-method">Conjugate gradient method</a><a id="Conjugate-gradient-method-1"></a><a class="docs-heading-anchor-permalink" href="#Conjugate-gradient-method" title="Permalink"></a></h3><p>The conjugate gradient method is an iterative algorithm used to solve linear systems of equations, particularly for symmetric and positive-definite matrices. It converges faster than other iterative methods like gradient descent, especially when dealing with large and sparse matrices.</p><h3 id="The-Gradient-descent-method"><a class="docs-heading-anchor" href="#The-Gradient-descent-method">The Gradient descent method</a><a id="The-Gradient-descent-method-1"></a><a class="docs-heading-anchor-permalink" href="#The-Gradient-descent-method" title="Permalink"></a></h3><p>Gradient descent is an optimization algorithm that tries to minimize a given objective function by iteratively moving in the direction of the steepest descent, as defined by the negative of the gradient. In this code, gradient descent is applied to a 2D quadratic function for visualization purposes.</p><h2 id="The-code-explaind"><a class="docs-heading-anchor" href="#The-code-explaind">The code explaind</a><a id="The-code-explaind-1"></a><a class="docs-heading-anchor-permalink" href="#The-code-explaind" title="Permalink"></a></h2><ol><li><p>This code imports three Julia packages: LinearAlgebra, Plots.</p><p><code>using LinearAlgebra  using Plots</code></p></li><li><p>The code defines a ScatteredArray structure with two matrices and provides custom multiplication and size functions for it. This data structure is specifically designed to represent sparse matrices efficiently.</p><pre><code class="nohighlight hljs"> struct ScatteredArray
      V::Matrix{Float64}
      I::Matrix{Int}
  end
@@ -19,81 +18,141 @@
      end
 
      return result
- end
+ end</code></pre></li><li><p>The code defines a function to create a ScatteredArray from an adjacency matrix and a vector of strengths. This function is essential for creating the sparse matrix representation of the graph embedding problem.</p><pre><code class="nohighlight hljs"> function create_scattered_system_matrix(adj_matrix::Matrix{Int},        st::Vector{Float64})
+     n = size(adj_matrix, 1)
+     A = zeros(Float64, n, n)
 
- # Get the size of ScatteredArray
- Base.size(A::ScatteredArray, dim::Integer) = size(A.I, dim)
- ```</code></pre></li><li><p>The code defines a function to create a ScatteredArray from an adjacency matrix and a vector of strengths. This function is essential for creating the sparse matrix representation of the graph embedding problem.</p><pre><code class="nohighlight hljs"> ```
- function create_scattered_system_matrix(adj_matrix::Matrix{Int}, st::Vector{Float64})
- n = size(adj_matrix, 1)
- A = zeros(Float64, n, n)
-
- for i in 1:n
-     A[i, i] = st[i] * sum(adj_matrix[i, :]) - 1
-     for j in 1:n
-         if adj_matrix[i, j] == 1
-             A[i, j] = -1
+     for i in 1:n
+         A[i, i] = st[i] * sum(adj_matrix[i, :]) - 1
+         for j in 1:n
+             if adj_matrix[i, j] == 1
+                 A[i, j] = -1
+             end
          end
      end
- end
 
- # Add a small diagonal perturbation
- A = A + 1e-6 * Matrix{Float64}(LinearAlgebra.I, n, n)
+     # Add a small diagonal perturbation
+     A = A + 1e-6 * Matrix{Float64}(LinearAlgebra.I, n, n)
 
- V = zeros(Float64, n, n)
- I = zeros(Int, n, n)
+     V = zeros(Float64, n, n)
+     I = zeros(Int, n, n)
 
- for i in 1:n
-     k = 1
-     for j in 1:n
-         if A[i, j] != 0
-             V[i, k] = A[i, j]
-             I[i, k] = j
-             k += 1
+     for i in 1:n
+         k = 1
+         for j in 1:n
+             if A[i, j] != 0
+                 V[i, k] = A[i, j]
+                 I[i, k] = j
+                 k += 1
+             end
          end
      end
+     return ScatteredArray(V, I)
+ end</code></pre></li><li><p>This code defines a conj_grad function that solves a linear system Ax = b using the conjugate gradient method</p><pre><code class="nohighlight hljs"> function conj_grad(A::ScatteredArray, b::Vector{Float64})
+ n = length(b)
+ x = zeros(Float64, n)
+ r = b - A * x
+ p = r
+ rsold = r&#39; * r
+ max_iter = 1000
+
+     for i = 1:max_iter
+         Ap = A * p
+         alpha = rsold / (p&#39; * Ap)
+         x = x + alpha * p
+         r = r - alpha * Ap
+         rsnew = r&#39; * rs
+
+         if sqrt(rsnew) &lt; 1e-10
+             break
+         end
+
+         p = r + (rsnew / rsold) * p
+         rsold = rsnew
+     end
+ return x, i
+ end</code></pre></li></ol><p>The code demonstrates how to use the conj_grad function to solve the graph embedding problem using a physical method. The example is a simple graph with a few nodes and edges. The adjacency matrix and the strengths vector are given.</p><pre><code class="nohighlight hljs"># Example graph
+adj_matrix = [
+    0 1 0 0 1;
+    1 0 1 0 1;
+    0 1 0 1 0;
+    0 0 1 0 1;
+    1 1 0 1 0
+]
+
+st = [1.0, 1.0, 1.0, 1.0, 1.0]
+
+A = create_scattered_system_matrix(adj_matrix, st)
+b = [0.0, 0.0, 0.0, 0.0, 0.0]
+
+x, iterations = conj_grad(A, b)
+
+println(&quot;Solution: &quot;, x)
+println(&quot;Number of iterations: &quot;, iterations)</code></pre><p>The output shows the solution vector x and the number of iterations required to achieve convergence. The solution can be used to visualize the graph embedding in 2D or 3D space, depending on the dimensions of the problem.</p><p>To summarize, the code provides a complete implementation of the Conjugate Gradient method for solving sparse linear systems with ScatteredArray data type. This is particularly useful for the task of graph embedding using the physical method, as demonstrated in the provided example.</p><ol><li><p>The code provided below solves a quadratic optimization problem using both the gradient descent and the conjugate gradient methods. The problem is defined as minimizing the function f(x) = 0.5 * x&#39; * A * x - b&#39; * x, where A and b are given. The contour plot shows the convergence of both methods.</p><pre><code class="nohighlight hljs"> function f(x)
+     return 0.5 * x&#39; * A * x - b&#39; * x
  end
 
- return ScatteredArray(V, I)</code></pre><p>end  ```</p></li><li><p>This code defines a conj_grad function that solves a linear system Ax = b using the conjugate gradient method</p><p>```    function conj<em>grad(A::ScatteredArray, b::Vector{Float64})      n = length(b)      x = zeros(Float64, n)      r = b - A * x      p = r      rsold = r&#39; * r      max</em>iter = 1000</p><pre><code class="nohighlight hljs"> for i = 1:max_iter
-     Ap = A * p
-     alpha = rsold / (p&#39; * Ap)
-     x = x + alpha * p
-     r = r - alpha * Ap
-     rsnew = r&#39; * rs
+ function grad_f(x)
+     return A * x - b
+ end
 
-     if sqrt(rsnew) &lt; 1e-10
-         break
+ function gradient_descent(grad_f, x0, max_iter=1000, tol=1e-6, lr=0.1)
+     x = x0
+     path = [x0]
+
+     for i in 1:max_iter
+         g = grad_f(x)
+         x = x - lr * g
+         push!(path, x)
+
+         if norm(grad_f(x)) &lt; tol
+             break
+         end
      end
 
-     p = r + (rsnew / rsold) * p
-     rsold = rsnew
+     return x, path
  end
- return x, i</code></pre><p>end  ```  The code demonstrates how to use the conj_grad function to solve the graph embedding problem using a physical method. The example is a simple graph with a few nodes and edges. The adjacency matrix and the strengths vector are given.</p><p>```</p><h1>Example graph</h1><p>adj_matrix = [      0 1 0 0 1;      1 0 1 0 1;      0 1 0 1 0;      0 0 1 0 1;      1 1 0 1 0  ]</p><p>st = [1.0, 1.0, 1.0, 1.0, 1.0]</p><p>A = create<em>scattered</em>system<em>matrix(adj</em>matrix, st)  b = [0.0, 0.0, 0.0, 0.0, 0.0]</p><p>x, iterations = conj_grad(A, b)</p><p>println(&quot;Solution: &quot;, x)  println(&quot;Number of iterations: &quot;, iterations)  ```  The output shows the solution vector x and the number of iterations required to achieve convergence. The solution can be used to visualize the graph embedding in 2D or 3D space, depending on the dimensions of the problem.</p><p>To summarize, the code provides a complete implementation of the Conjugate Gradient method for solving sparse linear systems with ScatteredArray data type. This is particularly useful for the task of graph embedding using the physical method, as demonstrated in the provided example.</p></li><li><p>The code provided below solves a quadratic optimization problem using both the gradient descent and the conjugate gradient methods. The problem is defined as minimizing the function f(x) = 0.5 * x&#39; * A * x - b&#39; * x, where A and b are given. The contour plot shows the convergence of both methods.</p><p>```  using Plots</p><p>A = [4 1; 1 3]  b = [-1; -1]</p><p>function f(x)      return 0.5 * x&#39; * A * x - b&#39; * x  end</p><p>function grad_f(x)      return A * x - b  end</p><p>function gradient<em>descent(grad</em>f, x0, max_iter=1000, tol=1e-6, lr=0.1)      x = x0      path = [x0]</p><pre><code class="nohighlight hljs"> for i in 1:max_iter
-     g = grad_f(x)
-     x = x - lr * g
-     push!(path, x)
 
-     if norm(grad_f(x)) &lt; tol
-         break
+ function conj_grad_2d(A, b, x0, max_iter=1000, tol=1e-6)
+     x = x0
+     r = b - A * x
+     p = copy(r)
+
+     path = [x0]
+
+     for i in 1:max_iter
+         alpha = dot(r, r) / dot(p, A * p)
+         x = x + alpha * p
+         push!(path, x)
+
+         r_new = r - alpha * A * p
+
+         if norm(r_new) &lt; tol
+             break
+         end
+
+         beta = dot(r_new, r_new) / dot(r, r)
+         p = r_new + beta * p
+         r = r_new
      end
+
+     return x, path
  end
 
- return x, path</code></pre><p>end</p><p>function conj<em>grad</em>2d(A, b, x0, max_iter=1000, tol=1e-6)      x = x0      r = b - A * x      p = copy(r)</p><pre><code class="nohighlight hljs"> path = [x0]
+ x0 = [2.0; 2.0]
+ sol_gd, path_gd = gradient_descent(grad_f, x0)
+ sol_cg, path_cg = conj_grad_2d(A, b, x0)
 
- for i in 1:max_iter
-     alpha = dot(r, r) / dot(p, A * p)
-     x = x + alpha * p
-     push!(path, x)
+ x = -1:0.1:3
+ y = -1:0.1:3
+ contour_plot = Plots.contour(x, y, (x, y) -&gt; f([x; y]), title=&quot;Gradient Descent vs Conjugate Gradient&quot;, xlabel=&quot;x&quot;, ylabel=&quot;y&quot;, legend=:topleft, color=:black, linewidth=0.5)
 
-     r_new = r - alpha * A * p
+ x_coords_gd = [p[1] for p in path_gd]
+ y_coords_gd = [p[2] for p in path_gd]
+ plot!(contour_plot, x_coords_gd, y_coords_gd, marker=:circle, color=:green, lw=1.5, markersize=4, label=&quot;Gradient Descent&quot;)
 
-     if norm(r_new) &lt; tol
-         break
-     end
+ x_coords_cg = [p[1] for p in path_cg]
+ y_coords_cg = [p[2] for p in path_cg]
+ plot!(contour_plot, x_coords_cg, y_coords_cg, marker=:circle, color=:red, lw=1.5, markersize=4, label=&quot;Conjugate Gradient&quot;)
 
-     beta = dot(r_new, r_new) / dot(r, r)
-     p = r_new + beta * p
-     r = r_new
- end
-
- return x, path</code></pre><p>end</p><p>x0 = [2.0; 2.0]  sol<em>gd, path</em>gd = gradient<em>descent(grad</em>f, x0)  sol<em>cg, path</em>cg = conj<em>grad</em>2d(A, b, x0)</p><p>x = -1:0.1:3  y = -1:0.1:3  contour_plot = Plots.contour(x, y, (x, y) -&gt; f([x; y]), title=&quot;Gradient Descent vs Conjugate Gradient&quot;, xlabel=&quot;x&quot;, ylabel=&quot;y&quot;, legend=:topleft, color=:black, linewidth=0.5)</p><p>x<em>coords</em>gd = [p[1] for p in path<em>gd]  y</em>coords<em>gd = [p[2] for p in path</em>gd]  plot!(contour<em>plot, x</em>coords<em>gd, y</em>coords_gd, marker=:circle, color=:green, lw=1.5, markersize=4, label=&quot;Gradient Descent&quot;)</p><p>x<em>coords</em>cg = [p[1] for p in path<em>cg]  y</em>coords<em>cg = [p[2] for p in path</em>cg]  plot!(contour<em>plot, x</em>coords<em>cg, y</em>coords_cg, marker=:circle, color=:red, lw=1.5, markersize=4, label=&quot;Conjugate Gradient&quot;)</p><p>plot!(contour_plot)  ```</p></li></ol></article><nav class="docs-footer"><p class="footer-message">Powered by <a href="https://github.com/JuliaDocs/Documenter.jl">Documenter.jl</a> and the <a href="https://julialang.org/">Julia Programming Language</a>.</p></nav></div><div class="modal" id="documenter-settings"><div class="modal-background"></div><div class="modal-card"><header class="modal-card-head"><p class="modal-card-title">Settings</p><button class="delete"></button></header><section class="modal-card-body"><p><label class="label">Theme</label><div class="select"><select id="documenter-themepicker"><option value="documenter-light">documenter-light</option><option value="documenter-dark">documenter-dark</option></select></div></p><hr/><p>This document was generated with <a href="https://github.com/JuliaDocs/Documenter.jl">Documenter.jl</a> version 0.27.24 on <span class="colophon-date" title="Sunday 23 April 2023 21:43">Sunday 23 April 2023</span>. Using Julia version 1.8.5.</p></section><footer class="modal-card-foot"></footer></div></div></div></body></html>
+ plot!(contour_plot)</code></pre></li></ol></article><nav class="docs-footer"><p class="footer-message">Powered by <a href="https://github.com/JuliaDocs/Documenter.jl">Documenter.jl</a> and the <a href="https://julialang.org/">Julia Programming Language</a>.</p></nav></div><div class="modal" id="documenter-settings"><div class="modal-background"></div><div class="modal-card"><header class="modal-card-head"><p class="modal-card-title">Settings</p><button class="delete"></button></header><section class="modal-card-body"><p><label class="label">Theme</label><div class="select"><select id="documenter-themepicker"><option value="documenter-light">documenter-light</option><option value="documenter-dark">documenter-dark</option></select></div></p><hr/><p>This document was generated with <a href="https://github.com/JuliaDocs/Documenter.jl">Documenter.jl</a> version 0.27.24 on <span class="colophon-date" title="Tuesday 25 April 2023 14:13">Tuesday 25 April 2023</span>. Using Julia version 1.8.5.</p></section><footer class="modal-card-foot"></footer></div></div></div></body></html>
