@@ -33,7 +33,6 @@ Gradient descent is an optimization algorithm that tries to minimize a given obj
     ```
 2. The code defines a ScatteredArray structure with two matrices and provides custom multiplication and size functions for it. This data structure is specifically designed to represent sparse matrices efficiently.
 
-        ```
         struct ScatteredArray
             V::Matrix{Float64}
             I::Matrix{Int}
@@ -54,50 +53,45 @@ Gradient descent is an optimization algorithm that tries to minimize a given obj
 
             return result
         end
-
-        # Get the size of ScatteredArray
-        Base.size(A::ScatteredArray, dim::Integer) = size(A.I, dim)
-        ```
+    
 3. The code defines a function to create a ScatteredArray from an adjacency matrix and a vector of strengths. This function is essential for creating the sparse matrix representation of the graph embedding problem.
 
-        ```
-        function create_scattered_system_matrix(adj_matrix::Matrix{Int}, st::Vector{Float64})
-        n = size(adj_matrix, 1)
-        A = zeros(Float64, n, n)
+        function create_scattered_system_matrix(adj_matrix::Matrix{Int},        st::Vector{Float64})
+            n = size(adj_matrix, 1)
+            A = zeros(Float64, n, n)
 
-        for i in 1:n
-            A[i, i] = st[i] * sum(adj_matrix[i, :]) - 1
-            for j in 1:n
-                if adj_matrix[i, j] == 1
-                    A[i, j] = -1
+            for i in 1:n
+                A[i, i] = st[i] * sum(adj_matrix[i, :]) - 1
+                for j in 1:n
+                    if adj_matrix[i, j] == 1
+                        A[i, j] = -1
+                    end
                 end
             end
-        end
 
-        # Add a small diagonal perturbation
-        A = A + 1e-6 * Matrix{Float64}(LinearAlgebra.I, n, n)
+            # Add a small diagonal perturbation
+            A = A + 1e-6 * Matrix{Float64}(LinearAlgebra.I, n, n)
 
-        V = zeros(Float64, n, n)
-        I = zeros(Int, n, n)
+            V = zeros(Float64, n, n)
+            I = zeros(Int, n, n)
 
-        for i in 1:n
-            k = 1
-            for j in 1:n
-                if A[i, j] != 0
-                    V[i, k] = A[i, j]
-                    I[i, k] = j
-                    k += 1
+            for i in 1:n
+                k = 1
+                for j in 1:n
+                    if A[i, j] != 0
+                        V[i, k] = A[i, j]
+                        I[i, k] = j
+                        k += 1
+                    end
                 end
             end
+            return ScatteredArray(V, I)
         end
+        
 
-        return ScatteredArray(V, I)
-    end
-    ```
 4. This code defines a conj_grad function that solves a linear system Ax = b using the conjugate gradient method
 
-    ```  
-    function conj_grad(A::ScatteredArray, b::Vector{Float64})
+        function conj_grad(A::ScatteredArray, b::Vector{Float64})
         n = length(b)
         x = zeros(Float64, n)
         r = b - A * x
@@ -105,26 +99,25 @@ Gradient descent is an optimization algorithm that tries to minimize a given obj
         rsold = r' * r
         max_iter = 1000
 
-        for i = 1:max_iter
-            Ap = A * p
-            alpha = rsold / (p' * Ap)
-            x = x + alpha * p
-            r = r - alpha * Ap
-            rsnew = r' * rs
+            for i = 1:max_iter
+                Ap = A * p
+                alpha = rsold / (p' * Ap)
+                x = x + alpha * p
+                r = r - alpha * Ap
+                rsnew = r' * rs
 
-            if sqrt(rsnew) < 1e-10
-                break
+                if sqrt(rsnew) < 1e-10
+                    break
+                end
+
+                p = r + (rsnew / rsold) * p
+                rsold = rsnew
             end
-
-            p = r + (rsnew / rsold) * p
-            rsold = rsnew
-        end
         return x, i
-    end
-    ```
-    The code demonstrates how to use the conj_grad function to solve the graph embedding problem using a physical method. The example is a simple graph with a few nodes and edges. The adjacency matrix and the strengths vector are given.
+        end
 
-    ```
+The code demonstrates how to use the conj_grad function to solve the graph embedding problem using a physical method. The example is a simple graph with a few nodes and edges. The adjacency matrix and the strengths vector are given.
+
     # Example graph
     adj_matrix = [
         0 1 0 0 1;
@@ -143,85 +136,79 @@ Gradient descent is an optimization algorithm that tries to minimize a given obj
 
     println("Solution: ", x)
     println("Number of iterations: ", iterations)
-    ```
-    The output shows the solution vector x and the number of iterations required to achieve convergence. The solution can be used to visualize the graph embedding in 2D or 3D space, depending on the dimensions of the problem.
 
-    To summarize, the code provides a complete implementation of the Conjugate Gradient method for solving sparse linear systems with ScatteredArray data type. This is particularly useful for the task of graph embedding using the physical method, as demonstrated in the provided example.
+The output shows the solution vector x and the number of iterations required to achieve convergence. The solution can be used to visualize the graph embedding in 2D or 3D space, depending on the dimensions of the problem.
+
+To summarize, the code provides a complete implementation of the Conjugate Gradient method for solving sparse linear systems with ScatteredArray data type. This is particularly useful for the task of graph embedding using the physical method, as demonstrated in the provided example.
 
 5. The code provided below solves a quadratic optimization problem using both the gradient descent and the conjugate gradient methods. The problem is defined as minimizing the function f(x) = 0.5 * x' * A * x - b' * x, where A and b are given. The contour plot shows the convergence of both methods.
 
-    ```
-    using Plots
-
-    A = [4 1; 1 3]
-    b = [-1; -1]
-
-    function f(x)
-        return 0.5 * x' * A * x - b' * x
-    end
-
-    function grad_f(x)
-        return A * x - b
-    end
-
-    function gradient_descent(grad_f, x0, max_iter=1000, tol=1e-6, lr=0.1)
-        x = x0
-        path = [x0]
-
-        for i in 1:max_iter
-            g = grad_f(x)
-            x = x - lr * g
-            push!(path, x)
-
-            if norm(grad_f(x)) < tol
-                break
-            end
+        function f(x)
+            return 0.5 * x' * A * x - b' * x
         end
 
-        return x, path
-    end
-
-    function conj_grad_2d(A, b, x0, max_iter=1000, tol=1e-6)
-        x = x0
-        r = b - A * x
-        p = copy(r)
-
-        path = [x0]
-
-        for i in 1:max_iter
-            alpha = dot(r, r) / dot(p, A * p)
-            x = x + alpha * p
-            push!(path, x)
-
-            r_new = r - alpha * A * p
-
-            if norm(r_new) < tol
-                break
-            end
-
-            beta = dot(r_new, r_new) / dot(r, r)
-            p = r_new + beta * p
-            r = r_new
+        function grad_f(x)
+            return A * x - b
         end
 
-        return x, path
-    end
+        function gradient_descent(grad_f, x0, max_iter=1000, tol=1e-6, lr=0.1)
+            x = x0
+            path = [x0]
 
-    x0 = [2.0; 2.0]
-    sol_gd, path_gd = gradient_descent(grad_f, x0)
-    sol_cg, path_cg = conj_grad_2d(A, b, x0)
+            for i in 1:max_iter
+                g = grad_f(x)
+                x = x - lr * g
+                push!(path, x)
 
-    x = -1:0.1:3
-    y = -1:0.1:3
-    contour_plot = Plots.contour(x, y, (x, y) -> f([x; y]), title="Gradient Descent vs Conjugate Gradient", xlabel="x", ylabel="y", legend=:topleft, color=:black, linewidth=0.5)
+                if norm(grad_f(x)) < tol
+                    break
+                end
+            end
 
-    x_coords_gd = [p[1] for p in path_gd]
-    y_coords_gd = [p[2] for p in path_gd]
-    plot!(contour_plot, x_coords_gd, y_coords_gd, marker=:circle, color=:green, lw=1.5, markersize=4, label="Gradient Descent")
+            return x, path
+        end
 
-    x_coords_cg = [p[1] for p in path_cg]
-    y_coords_cg = [p[2] for p in path_cg]
-    plot!(contour_plot, x_coords_cg, y_coords_cg, marker=:circle, color=:red, lw=1.5, markersize=4, label="Conjugate Gradient")
+        function conj_grad_2d(A, b, x0, max_iter=1000, tol=1e-6)
+            x = x0
+            r = b - A * x
+            p = copy(r)
 
-    plot!(contour_plot)
-    ```
+            path = [x0]
+
+            for i in 1:max_iter
+                alpha = dot(r, r) / dot(p, A * p)
+                x = x + alpha * p
+                push!(path, x)
+
+                r_new = r - alpha * A * p
+
+                if norm(r_new) < tol
+                    break
+                end
+
+                beta = dot(r_new, r_new) / dot(r, r)
+                p = r_new + beta * p
+                r = r_new
+            end
+
+            return x, path
+        end
+
+        x0 = [2.0; 2.0]
+        sol_gd, path_gd = gradient_descent(grad_f, x0)
+        sol_cg, path_cg = conj_grad_2d(A, b, x0)
+
+        x = -1:0.1:3
+        y = -1:0.1:3
+        contour_plot = Plots.contour(x, y, (x, y) -> f([x; y]), title="Gradient Descent vs Conjugate Gradient", xlabel="x", ylabel="y", legend=:topleft, color=:black, linewidth=0.5)
+
+        x_coords_gd = [p[1] for p in path_gd]
+        y_coords_gd = [p[2] for p in path_gd]
+        plot!(contour_plot, x_coords_gd, y_coords_gd, marker=:circle, color=:green, lw=1.5, markersize=4, label="Gradient Descent")
+
+        x_coords_cg = [p[1] for p in path_cg]
+        y_coords_cg = [p[2] for p in path_cg]
+        plot!(contour_plot, x_coords_cg, y_coords_cg, marker=:circle, color=:red, lw=1.5, markersize=4, label="Conjugate Gradient")
+
+        plot!(contour_plot)
+    
