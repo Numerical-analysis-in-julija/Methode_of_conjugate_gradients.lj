@@ -32,7 +32,7 @@ end
 @testset "Test 4: Gradient Descent" begin
     x0_gd = [2.0; 2.0]
     sol_gd, path_gd = Methode_of_conjugate_gradients.gradient_descent(grad_f, x0_gd)
-    @test sol_gd ≈ [0.18181818181818182, 0.2727272727272727] atol=1e-6
+    @test sol_gd ≈ [-0.18181818181818182, -0.2727272727272727] atol=1e-6
 end
 
 # Test 5: create_scattered_system_matrix
@@ -40,7 +40,8 @@ end
     adj_matrix = [0 1 0; 1 0 1; 0 1 0]
     strengths = [2.0, 1.0, 1.0]
     scattered_matrix = Methode_of_conjugate_gradients.create_scattered_system_matrix(adj_matrix, strengths)
-    @test sol_gd ≈ [-0.18181818181818182, -0.2727272727272727] atol=1e-6
+    sol, _, _ = Methode_of_conjugate_gradients.conj_grad(scattered_matrix, Float64.([-1, -1, -1]))
+    @test sol ≈ [2.0e-6, 1.0, 2.0] atol=1e-4
 end
 
 # Test 6: conj_grad_2d
