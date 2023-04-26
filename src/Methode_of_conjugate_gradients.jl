@@ -16,8 +16,8 @@ end
 
 # Multiplication function for ScatteredArray
 """
-this is a method definition in Julia for the 
-element-wise multiplication between a ScatteredArray and a Vector.
+    Base.:*() is the multiplication function for ScatteredArray and Vector{Float64}.
+    It returns a Vector{Float64}.
 """
 function Base.:*(A::ScatteredArray, x::Vector{Float64})
     result = zeros(size(A.I, 1))
@@ -117,6 +117,7 @@ function conj_grad(A::ScatteredArray, b::Vector{Float64}; x0=nothing, tol=1e-6, 
 end
 
 # Visualisation of the convergence of the conjugate gradient method
+
 
 function f(x)
     return 0.5 * x' * A * x - b' * x

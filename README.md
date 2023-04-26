@@ -12,4 +12,5 @@ To run the code, it is necessary to have Julia installed on your computer. Once 
 
 For further understanding, you can refer to the [documentation](https://lovc21.github.io/Methode_of_conjugate_gradients.lj/dev/). This page provides additional information about the code, including the mathematical theory behind the conjugate gradient method and comparisons to other methods like gradient descent. This documentation can help deepen your understanding of the code and the underlying mathematics.
 
+The picture below shows the convergence of the conjugate gradient method and the gradient descent method. This was not part of the homework, but it was added to show the difference between the two methods. It also helps to visualize the convergence of the conjugate gradient method.
 <img title="Conjugate gradients descent  vs gradient descent" alt="Alt text" src=".\images\Capture116.JPG">

@@ -9,15 +9,19 @@ In the context of graph embedding, the conjugate gradient method can be applied 
 
 The equation given for each coordinate (xi, yi, zi) of the vertices of the graph in space is:
 
-−st(i)xi + ∑j∈N(i)xj - st(i)yi + ∑j∈N(i)yj - st(i)zi + ∑j∈N(i)zj = 0, 0, 0
+$$
+\begin{aligned}
+-st(i) x_i + \sum_{j \in N(i)} x_j - st(i) y_i + \sum_{j \in N(i)} y_j &= 0, \\
+-st(i) y_i + \sum_{j \in N(i)} y_j - st(i) z_i + \sum_{j \in N(i)} z_j &= 0, \\
+-st(i) z_i + \sum_{j \in N(i)} z_j - st(i) x_i + \sum_{j \in N(i)} x_j &= 0.
+\end{aligned}
+$$
 
 Here, st(i) represents the stage of the i-th node, and N(i) is the set of indices of neighboring nodes. This equation ensures that the total force acting on each node is zero in equilibrium. If some nodes are fixed, the others will occupy an equilibrium position between the fixed nodes.
 
 To solve this system of equations using the conjugate gradient method, we can first rewrite the equations in matrix form Ax = b, where A is a sparse matrix representing the graph structure, and x and b are vectors containing the coordinates of the vertices and the right-hand side of the equation, respectively. The conjugate gradient method can then be used to solve this linear system iteratively, finding the equilibrium positions of the nodes in the graph.
 
-The example provided in the code section demonstrates how to create a sparse matrix representation of the graph embedding problem, and then use the conj_grad function to solve it. The resulting solution can be used to visualize the graph embedding in 2D or 3D space, depending on the dimensions of the problem.
-
-Please refer to the code explanation section to understand the implementation details of the Conjugate Gradient method for solving sparse linear systems with ScatteredArray data type, which is particularly useful for the task of graph embedding using the physical method.
+The example provided in the code section demonstrates how to create a sparse matrix representation of the graph embedding problem, and then use the conj_grad function to solve it. 
 
 ### Conjugate gradient method
 The conjugate gradient method is an iterative algorithm used to solve linear systems of equations, particularly for symmetric and positive-definite matrices. It converges faster than other iterative methods like gradient descent, especially when dealing with large and sparse matrices.
@@ -56,7 +60,7 @@ Gradient descent is an optimization algorithm that tries to minimize a given obj
     
 3. The code defines a function to create a ScatteredArray from an adjacency matrix and a vector of strengths. This function is essential for creating the sparse matrix representation of the graph embedding problem.
 
-        function create_scattered_system_matrix(adj_matrix::Matrix{Int},        st::Vector{Float64})
+        function create_scattered_system_matrix(adj_matrix::Matrix{Int},st::Vector{Float64})
             n = size(adj_matrix, 1)
             A = zeros(Float64, n, n)
 
@@ -137,11 +141,11 @@ The code demonstrates how to use the conj_grad function to solve the graph embed
     println("Solution: ", x)
     println("Number of iterations: ", iterations)
 
-The output shows the solution vector x and the number of iterations required to achieve convergence. The solution can be used to visualize the graph embedding in 2D or 3D space, depending on the dimensions of the problem.
+The output shows the solution vector x and the number of iterations required to achieve convergence.
 
 To summarize, the code provides a complete implementation of the Conjugate Gradient method for solving sparse linear systems with ScatteredArray data type. This is particularly useful for the task of graph embedding using the physical method, as demonstrated in the provided example.
 
-5. The code provided below solves a quadratic optimization problem using both the gradient descent and the conjugate gradient methods. The problem is defined as minimizing the function f(x) = 0.5 * x' * A * x - b' * x, where A and b are given. The contour plot shows the convergence of both methods.
+5. The code provided below solves a quadratic optimization problem using both the gradient descent and the conjugate gradient methods. The problem is defined as minimizing the function f(x) = 0.5 * x' * A * x - b' * x, where A and b are given. The contour plot shows the convergence of both methods. The gradient descent method converges to a local minimum, while the conjugate gradient method converges to the global minimum. The code also shows how to use the Plots package to create a contour plot.
 
         function f(x)
             return 0.5 * x' * A * x - b' * x
