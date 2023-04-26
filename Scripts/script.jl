@@ -1,6 +1,6 @@
 using Methode_of_conjugate_gradients
 
-# Example graph adjacency matrix (you need to replace this with your own adjacency matrix)
+# Example graph adjacency matrix
 adj_matrix = [
     0 1 0 0;
     1 0 1 1;
@@ -8,14 +8,15 @@ adj_matrix = [
     0 1 1 0
 ]
 
-# Example stiffness (you need to replace this with your own stiffness values)
+# Example stiffness 
 st = [1.0, 1.0, 1.0, 1.0]
 
 A = create_scattered_system_matrix(adj_matrix, st)
 b = [1.0, 2.0, 3.0, 4.0]
 
-# Initial approximation and tolerance
+#approximation 
 x0 = ones(length(st))
+#tolerance
 tol = 1e-6
 
 x, it, residuals = conj_grad(A, b, x0=x0, tol=tol)
@@ -24,6 +25,8 @@ println("Solution: ", x)
 println("Number of iterations: ", it)
 
 #generate image of the graph 
+using  Plots
+
 A = [4 1; 1 3]
 b = [-1; -1]
 

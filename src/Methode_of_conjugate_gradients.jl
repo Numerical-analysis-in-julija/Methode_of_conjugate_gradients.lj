@@ -118,9 +118,6 @@ end
 
 # Visualisation of the convergence of the conjugate gradient method
 
-A = [4 1; 1 3]
-b = [-1; -1]
-
 function f(x)
     return 0.5 * x' * A * x - b' * x
 end
@@ -129,6 +126,10 @@ function grad_f(x)
     return A * x - b
 end
 
+""" 
+    gradient_descent() returns the solution of the minimization problem
+    and the path of the gradient descent.
+    """
 function gradient_descent(grad_f, x0, max_iter=1000, tol=1e-6, lr=0.1)
     x = x0
     path = [x0]
@@ -146,6 +147,9 @@ function gradient_descent(grad_f, x0, max_iter=1000, tol=1e-6, lr=0.1)
     return x, path
 end
 
+
+""" conj_grad_2d() returns the solution of the minimization problem
+    and the path of the conjugate gradient method. """
 function conj_grad_2d(A, b, x0, max_iter=1000, tol=1e-6)
     x = x0
     r = b - A * x
@@ -171,24 +175,6 @@ function conj_grad_2d(A, b, x0, max_iter=1000, tol=1e-6)
 
     return x, path
 end
-
-x0 = [2.0; 2.0]
-sol_gd, path_gd = gradient_descent(grad_f, x0)
-sol_cg, path_cg = conj_grad_2d(A, b, x0)
-
-x = -1:0.1:3
-y = -1:0.1:3
-contour_plot = Plots.contour(x, y, (x, y) -> f([x; y]), title="Gradient Descent vs Conjugate Gradient", xlabel="x", ylabel="y", legend=:topleft, color=:black, linewidth=0.5)
-
-x_coords_gd = [p[1] for p in path_gd]
-y_coords_gd = [p[2] for p in path_gd]
-plot!(contour_plot, x_coords_gd, y_coords_gd, marker=:circle, color=:green, lw=1.5, markersize=4, label="Gradient Descent")
-
-x_coords_cg = [p[1] for p in path_cg]
-y_coords_cg = [p[2] for p in path_cg]
-plot!(contour_plot, x_coords_cg, y_coords_cg, marker=:circle, color=:red, lw=1.5, markersize=4, label="Conjugate Gradient")
-
-plot!(contour_plot)
 
 export ScatteredArray, conj_grad, conj_grad_2d, gradient_descent, create_scattered_system_matrix, f, grad_f
 
