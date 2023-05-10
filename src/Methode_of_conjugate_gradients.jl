@@ -22,6 +22,11 @@ end
 function Base.:*(A::ScatteredArray, x::Vector{Float64})
     result = zeros(size(A.I, 1))
 
+    max_index = maximum(A.I)
+    if length(x) < max_index
+        throw(DimensionMismatch("Input vector is too short. Minimum required length is $max_index"))
+    end
+
     for row in 1:size(A.I, 1)
         for col in 1:size(A.I, 2)
             i = A.I[row, col]
@@ -79,7 +84,7 @@ end
 """ Methode_of_conjugate_gradients.conj_grad works with ScatteredArray
     and Vector{Float64} as input.
     It returns the solution of the linear system Ax = b
-    and the number of iterations.
+    and the number of iterations and residulas.
 """
 function conj_grad(A::ScatteredArray, b::Vector{Float64}; x0=nothing, tol=1e-6, max_iter=1000)
     if x0 === nothing
@@ -130,7 +135,7 @@ end
 """ 
     gradient_descent() returns the solution of the minimization problem
     and the path of the gradient descent.
-    """
+"""
 function gradient_descent(grad_f, x0, max_iter=1000, tol=1e-6, lr=0.1)
     x = x0
     path = [x0]

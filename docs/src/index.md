@@ -10,11 +10,11 @@ In the context of graph embedding, the conjugate gradient method can be applied 
 The equation given for each coordinate (xi, yi, zi) of the vertices of the graph in space is:
 
 $$
-\begin{aligned}
-    -st(i) x_i + \sum_{j \in N(i)} x_j - st(i) y_i + \sum_{j \in N(i)} y_j &= 0, \\
-    -st(i) y_i + \sum_{j \in N(i)} y_j - st(i) z_i + \sum_{j \in N(i)} z_j &= 0, \\
-    -st(i) z_i + \sum_{j \in N(i)} z_j - st(i) x_i + \sum_{j \in N(i)} x_j &= 0.
-\end{aligned}
+    \begin{aligned}
+        -st(i) x_i + \sum_{j \in N(i)} x_j - st(i) y_i + \sum_{j \in N(i)} y_j &= 0, \\
+        -st(i) y_i + \sum_{j \in N(i)} y_j - st(i) z_i + \sum_{j \in N(i)} z_j &= 0, \\
+        -st(i) z_i + \sum_{j \in N(i)} z_j - st(i) x_i + \sum_{j \in N(i)} x_j &= 0.
+    \end{aligned}
 $$
 
 Here, st(i) represents the stage of the i-th node, and N(i) is the set of indices of neighboring nodes. This equation ensures that the total force acting on each node is zero in equilibrium. If some nodes are fixed, the others will occupy an equilibrium position between the fixed nodes.
